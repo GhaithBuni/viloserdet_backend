@@ -16,7 +16,7 @@ const app = express();
 const port = 4000;
 
 const allowedOrigins = [
-  "http://localhost:3000",
+  "hhttps://viloserdet.vercel.app",
   "http://localhost:3001", // Add your production domain here
 ];
 
