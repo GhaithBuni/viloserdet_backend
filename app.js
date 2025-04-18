@@ -17,7 +17,7 @@ const port = 4000;
 
 const allowedOrigins = [
   "https://viloserdet.vercel.app",
-  "http://localhost:3001", // Add your production domain here
+  "https://viloserdet-admin.vercel.app", // Add your production domain here
 ];
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
