@@ -255,6 +255,42 @@ router.post("/visningstad", async (req, res) => {
       .json({ message: "Failed to send confirmation", error: error.message });
   }
 });
+router.post("/contact", async (req, res) => {
+  const { name, email, number, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+        <h2 style="color: #2c3e50;">Nytt kontaktformulär</h2>
+        <p><strong>Namn:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Telefon:</strong> ${number || "Ej angivet"}</p>
+        <hr>
+        <h3>Meddelande:</h3>
+        <p>${message}</p>
+      </div>
+    `;
+
+    await sendEmail(
+      process.env.EMAIL_USER, // Send to your company email
+      `Nytt kontaktformulär från ${name}`,
+      emailContent
+    );
+
+    console.log("✅ Contact form email sent successfully");
+    res.json({ message: "Message sent successfully!" });
+  } catch (error) {
+    console.error("❌ Error sending contact form:", error);
+    res.status(500).json({
+      message: "Failed to send message",
+      error: error.message,
+    });
+  }
+});
 
 // Export the router
 module.exports = router;
