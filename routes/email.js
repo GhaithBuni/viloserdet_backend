@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
         <p><strong>📅 Datum:</strong> ${new Date(
           bookingDate
         ).toLocaleDateString()} kl:${tid}</p>
-        <p><strong>📦 Gammal Adress:</strong> ${address}</p>
+        <p><strong>📦 Nurvarande Adress:</strong> ${address}</p>
         <p><strong>🏡 Ny Adress:</strong> ${newAddress}</p>
         <p><strong>💰 Pris:</strong> ${price} SEK${
       rutChecked ? " (pris efter RUT)" : ""
