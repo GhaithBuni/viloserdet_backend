@@ -16,7 +16,7 @@ const app = express();
 const port = 4000;
 
 const allowedOrigins = [
-  "https://www.vilöserdet.se",
+  "https://www.xn--vilserdet-27a.se",
   "https://viloserdet-admin.vercel.app", // Add your production domain here
 ];
 
