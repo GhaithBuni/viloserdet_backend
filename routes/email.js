@@ -10,12 +10,12 @@ dbConnect();
 // Email Sending Function
 async function sendEmail(to, subject, htmlContent) {
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "send.one.com",
     port: 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL_USER, // Secure way to store credentials
-      pass: process.env.EMAIL_PASS, // Secure way to store credentials
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
