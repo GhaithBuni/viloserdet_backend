@@ -25,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   torktumlare: { type: Boolean },
   diskmaskin: { type: Boolean },
   createdAt: { type: Date, default: Date.now },
+  isCompleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("cleanvisning", bookingSchema);

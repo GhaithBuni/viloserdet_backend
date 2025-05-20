@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
         <hr>
         <p>Om du behöver ändra eller avboka tiden, vänligen kontakta oss senast tre arbetsdagar innan den avtalade tiden.</p>
         <p>Om du har några frågor eller behöver ändra din bokning, kontakta oss på:</p>
-        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 123-456 789</p>
+        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 +46 72-267774</p>
         <p>📄 Genom att boka godkänner du våra <a href="https://www.vilöserdet.se/Ingariflytthjalp" target="_blank" style="color: #0D3F53; text-decoration: underline;">avtalsvillkor</a>.</p>
         <p>Med vänliga hälsningar,</p>
         <p><strong>Orgnummer: </strong>880531–7958 </p>
@@ -159,7 +159,7 @@ router.post("/Flyttstad", async (req, res) => {
         <hr>
         <p>Om du behöver ändra eller avboka tiden, vänligen kontakta oss senast tre arbetsdagar innan den avtalade tiden.</p>
         <p>Om du har några frågor eller behöver ändra din bokning, kontakta oss på:</p>
-        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 123-456 789</p>
+        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 +46 72-267774</p>
         <p>📄 Genom att boka godkänner du våra <a href="https://www.vilöserdet.se/Ingariflyttstadingen" target="_blank" style="color: #0D3F53; text-decoration: underline;">avtalsvillkor</a>.</p>
         <p>Med vänliga hälsningar,</p>
         <p><strong>Orgnummer: </strong>880531–7958 </p>
@@ -231,7 +231,7 @@ router.post("/visningstad", async (req, res) => {
         <hr>
         <p>Om du behöver ändra eller avboka tiden, vänligen kontakta oss senast tre arbetsdagar innan den avtalade tiden.</p>
         <p>Om du har några frågor eller behöver ändra din bokning, kontakta oss på:</p>
-        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 123-456 789</p>
+        <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 +46 72-267774</p>
         <p>📄 Genom att boka godkänner du våra <a href="https://www.vilöserdet.se/Ingarivisningsstadning" target="_blank" style="color: #0D3F53; text-decoration: underline;">avtalsvillkor</a>.</p>
         <p>Med vänliga hälsningar,</p>
         <p><strong>Orgnummer: </strong>880531–7958 </p>

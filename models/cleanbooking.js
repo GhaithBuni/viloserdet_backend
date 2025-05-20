@@ -25,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   torktumlare: { type: Boolean },
   rutChecked: { type: Boolean }, // Optional field for RUT check from formData
   createdAt: { type: Date, default: Date.now },
+  isCompleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("cleanbookings", bookingSchema);

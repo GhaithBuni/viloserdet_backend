@@ -73,6 +73,7 @@ const bookingSchema = new mongoose.Schema({
   },
   selectedStorage: { type: String },
   storageDate: { type: Date },
+  isCompleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("bookings", bookingSchema);
