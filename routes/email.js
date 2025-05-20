@@ -68,6 +68,7 @@ router.post("/", async (req, res) => {
     // Email Content
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+        
         <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${bookingId}</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
@@ -93,6 +94,9 @@ router.post("/", async (req, res) => {
         <p><strong>Orgnummer: </strong>880531–7958 </p>
         <p><strong>Telefon: </strong>+46 72-267774</p>
         <p><strong>Vilöserdet</strong></p>
+       <div style="text-align: left; margin-bottom: 20px;">
+          <img src="https://www.vilöserdet.se/logoScroll.svg" alt="Vilöserdet Logo" style="max-width: auto; height: auto;">
+        </div>
       </div>
     `;
 
@@ -143,6 +147,7 @@ router.post("/Flyttstad", async (req, res) => {
     // Email Content
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+       
         <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${bookingId}</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
@@ -165,6 +170,9 @@ router.post("/Flyttstad", async (req, res) => {
         <p><strong>Orgnummer: </strong>880531–7958 </p>
         <p><strong>Telefon: </strong>+46 72-267774</p>
         <p><strong>Vilöserdet</strong></p>
+        <div style="text-align: left; margin-bottom: 20px;">
+          <img src="https://www.vilöserdet.se/logoScroll.svg" alt="Vilöserdet Logo" style="max-width: auto; height: auto;">
+        </div>
       </div>
     `;
 
@@ -215,6 +223,7 @@ router.post("/visningstad", async (req, res) => {
     // Email Content
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+       
         <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${bookingId}</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
@@ -237,6 +246,9 @@ router.post("/visningstad", async (req, res) => {
         <p><strong>Orgnummer: </strong>880531–7958 </p>
         <p><strong>Telefon: </strong>+46 72-267774</p>
         <p><strong>Vilöserdet</strong></p>
+        <div style="text-align: left; margin-bottom: 20px;">
+          <img src="https://www.vilöserdet.se/logoScroll.svg" alt="Vilöserdet Logo" style="max-width: 200px; height: auto;">
+        </div>
       </div>
     `;
 
