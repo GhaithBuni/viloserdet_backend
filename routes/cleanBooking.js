@@ -2,14 +2,61 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/cleanbooking");
 const dbConnect = require("../dbConnect");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
-dbConnect();
+// Add email sending function
+async function sendEmail(to, subject, htmlContent) {
+  let transporter = nodemailer.createTransport({
+    host: "send.one.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: `"Vilöserdet" <${process.env.EMAIL_USER}>`,
+    to,
+    subject,
+    html: htmlContent,
+  });
+
+  console.log("✅ Email sent:", info.response);
+}
 
 // ✅ POST: Create a New Booking
 router.post("/", async (req, res) => {
   try {
     const newBooking = new Booking(req.body);
     await newBooking.save();
+
+    // Send confirmation email
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+        <h2 style="color: #2c3e50;">📌 Ny Flytt Städning Bokning – #${
+          newBooking._id
+        }</h2>
+        <p>En ny städning bokning har gjorts med följande detaljer:</p>
+        <hr>
+        <p><strong>Kund:</strong> ${newBooking.name}</p>
+        <p><strong>Email:</strong> ${newBooking.email}</p>
+        <p><strong>Datum:</strong> ${new Date(
+          newBooking.movingDay
+        ).toLocaleDateString()}</p>
+        <p><strong>Adress:</strong> ${newBooking.adress}</p>
+        <hr>
+      </div>
+    `;
+
+    await sendEmail(
+      process.env.EMAIL_USER, // Send to company email
+      `Ny Städning Bokning - ${newBooking.name}`,
+      emailContent
+    );
+
     return res
       .status(201)
       .json({ message: "Booking saved successfully!", booking: newBooking });
