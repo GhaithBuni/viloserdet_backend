@@ -83,7 +83,12 @@ router.post("/", async (req, res) => {
 
     let totalPrice = pricingTier.basePrice;
 
-    let cleaningFee = pricingTier.cleaningCost * size;
+    let cleaningFee;
+    if (size > 0 && size <= 42) {
+      cleaningFee = 1600;
+    } else {
+      cleaningFee = pricingTier.cleaningCost * size;
+    }
     const totalCleaning = Math.round(cleaningFee * 0.85);
 
     // Extra distance cost
