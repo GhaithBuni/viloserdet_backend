@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Counter = require("./Counter"); // Import the Counter model
 
 const bookingSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -26,6 +27,21 @@ const bookingSchema = new mongoose.Schema({
   rutChecked: { type: Boolean }, // Optional field for RUT check from formData
   createdAt: { type: Date, default: Date.now },
   isCompleted: { type: Boolean, default: false },
+  orderNumber: { type: Number, unique: true },
+});
+
+bookingSchema.pre("save", async function (next) {
+  if (this.isNew && !this.orderNumber) {
+    const counter = await Counter.findByIdAndUpdate(
+      { _id: "orderNumber" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+    this.orderNumber = counter.seq;
+    next();
+  } else {
+    next();
+  }
 });
 
 module.exports = mongoose.model("cleanbookings", bookingSchema);

@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
         <h2 style="color: #2c3e50;">📌 Ny Flytt Städning Bokning – #${
-          newBooking._id
+          newBooking.orderNumber
         }</h2>
         <p>En ny städning bokning har gjorts med följande detaljer:</p>
         <hr>
