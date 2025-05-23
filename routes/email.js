@@ -44,7 +44,6 @@ router.post("/", async (req, res) => {
   } = req.body;
 
   if (
-    !orderNumber ||
     !customerEmail ||
     !customerName ||
     !bookingDate ||
@@ -69,7 +68,9 @@ router.post("/", async (req, res) => {
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
         
-        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${orderNumber}</h2>
+        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${
+          orderNumber || customerName
+        }</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
@@ -102,7 +103,7 @@ router.post("/", async (req, res) => {
 
     await sendEmail(
       customerEmail,
-      `Bokningsbekräftelse – #${orderNumber}`,
+      `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
     );
 
@@ -128,7 +129,6 @@ router.post("/Flyttstad", async (req, res) => {
   } = req.body;
 
   if (
-    !orderNumber ||
     !customerEmail ||
     !customerName ||
     !bookingDate ||
@@ -148,7 +148,9 @@ router.post("/Flyttstad", async (req, res) => {
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
        
-        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${orderNumber}</h2>
+        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${
+          orderNumber || customerName
+        }</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
@@ -178,14 +180,14 @@ router.post("/Flyttstad", async (req, res) => {
 
     await sendEmail(
       customerEmail,
-      `Bokningsbekräftelse – #${orderNumber}`,
+      `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
     );
 
     console.log("✅ Confirmation email sent successfully.");
     res.json({ message: "Confirmation sent successfully!" });
   } catch (error) {
-    console.error("❌ Error sending confirmation:", error);
+    console.error("❌ Error sending confirmation:", error.message);
     res
       .status(500)
       .json({ message: "Failed to send confirmation", error: error.message });
@@ -204,7 +206,6 @@ router.post("/visningstad", async (req, res) => {
   } = req.body;
 
   if (
-    !orderNumber ||
     !customerEmail ||
     !customerName ||
     !bookingDate ||
@@ -224,7 +225,9 @@ router.post("/visningstad", async (req, res) => {
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
        
-        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${orderNumber}</h2>
+        <h2 style="color: #2c3e50;">📌 Bokningsbekräftelse – #${
+          orderNumber || customerName
+        }</h2>
         <p>Hej <strong>${customerName}</strong>,</p>
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
@@ -254,7 +257,7 @@ router.post("/visningstad", async (req, res) => {
 
     await sendEmail(
       customerEmail,
-      `Bokningsbekräftelse – #${orderNumber}`,
+      `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
     );
 
