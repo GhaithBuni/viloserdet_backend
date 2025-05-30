@@ -75,9 +75,9 @@ router.post("/", async (req, res) => {
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
         <p><strong>🛠️ Tjänst:</strong> FlyttHjälp</p>
-        <p><strong>📅 Datum:</strong> ${new Date(
-          bookingDate
-        ).toLocaleDateString()} kl:${tid}</p>
+        <p><strong>📅 Datum:</strong> ${
+          new Date(bookingDate).toISOString().split("T")[0]
+        } kl:${tid}</p>
         <p><strong>📦 Nurvarande Adress:</strong> ${address}</p>
         <p><strong>🏡 Ny Adress:</strong> ${newAddress}</p>
         <p><strong>💰 Pris:</strong> ${price} SEK${
@@ -155,9 +155,9 @@ router.post("/Flyttstad", async (req, res) => {
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
         <p><strong>🛠️ Tjänst:</strong> FlyttStäd</p>
-        <p><strong>📅 Datum:</strong> ${new Date(
-          bookingDate
-        ).toLocaleDateString()} kl:${tid}</p>
+        <p><strong>📅 Datum:</strong> ${
+          new Date(bookingDate).toISOString().split("T")[0]
+        } kl:${tid}</p>
         <p><strong>🏡 Adress:</strong> ${address}</p>
         <p><strong>💰 Pris:</strong> ${finalTotalPrice.toFixed(2)} SEK${
       rutChecked ? " (pris efter RUT)" : ""
@@ -232,9 +232,9 @@ router.post("/visningstad", async (req, res) => {
         <p>Tack för din bokning hos <strong>Vilöserdet</strong>! Här är detaljerna för din bokning:</p>
         <hr>
         <p><strong>🛠️ Tjänst:</strong> Visningstäd</p>
-        <p><strong>📅 Datum:</strong> ${new Date(
-          bookingDate
-        ).toLocaleDateString()} kl:${tid}</p>
+        <p><strong>📅 Datum:</strong> ${
+          new Date(bookingDate).toISOString().split("T")[0]
+        } kl:${tid}</p>
         <p><strong>🏡 Adress:</strong> ${address}</p>
         <p><strong>💰 Pris:</strong> ${finalTotalPrice} SEK${
       rutChecked ? " (pris efter RUT)" : ""
