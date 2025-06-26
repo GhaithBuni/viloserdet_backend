@@ -5,6 +5,7 @@ const Pricing = require("../models/price");
 const dbConnect = require("../dbConnect");
 const Discount = require("../models/discount"); // ✅ Import Discount model
 const axios = require("axios");
+const originDistance = "75430";
 
 // Connect to database
 dbConnect();
@@ -27,6 +28,8 @@ async function getDistance(startPostcode, endPostcode) {
         response.data.rows[0].elements[0].status
       );
       const distanceInMeters = response.data.rows[0].elements[0].distance.value;
+
+      console.log("Distance in kilometers:", distanceInMeters / 1000);
       return distanceInMeters / 1000; // Convert meters to kilometers
     } else {
       console.error(
@@ -62,6 +65,10 @@ router.post("/", async (req, res) => {
     } = req.body;
 
     const distance = await getDistance(startPostcode, endPostcode);
+    const originDistanceValue = await getDistance(
+      originDistance,
+      startPostcode
+    );
 
     if (!distance) {
       return res
@@ -98,6 +105,17 @@ router.post("/", async (req, res) => {
       totalPrice += pricingTier.extraKmCost.from31to200km * (200 - 31);
       totalPrice += pricingTier.extraKmCost.above200km * (distance - 200);
     }
+
+    // Extra distance cost for origin distance
+    if (originDistanceValue > 31 && originDistanceValue <= 200) {
+      totalPrice +=
+        pricingTier.extraKmCost.from31to200km * (originDistanceValue - 31);
+    } else if (originDistanceValue > 200) {
+      totalPrice +=
+        pricingTier.extraKmCost.from31to200km * (200 - 31) +
+        pricingTier.extraKmCost.above200km * (originDistanceValue - 200);
+    }
+
     // Floor cost (if no elevator)
     if (elevator === "Ingen Hiss") {
       if (floor >= 3 && 4 >= floor) {
@@ -152,7 +170,7 @@ router.post("/", async (req, res) => {
       distance: distance + " km",
       packning: pricingTier.PackgingService,
       FurniturePrice: pricingTier.furnitureRemoval,
-      cleaning: totalCleaning,
+      cleaning: cleaningFee,
     });
   } catch (error) {
     console.error("Error:", error);
