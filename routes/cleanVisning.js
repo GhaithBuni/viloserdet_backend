@@ -43,9 +43,9 @@ router.post("/", async (req, res) => {
         <hr>
         <p><strong>Kund:</strong> ${newBooking.name}</p>
         <p><strong>Email:</strong> ${newBooking.email}</p>
-        <p><strong>Datum:</strong> ${new Date(
-          newBooking.movingDay
-        ).toLocaleDateString()}</p>
+        <p><strong>Datum:</strong> ${
+          new Date(newBooking.movingDay).toISOString().split("T")[0]
+        }</p>
         <p><strong>Adress:</strong> ${newBooking.adress}</p>
         <hr>
       </div>

@@ -36,24 +36,24 @@ router.post("/", async (req, res) => {
     const newBooking = new Booking(req.body);
     await newBooking.save();
 
-    // Send confirmation email
+    // // Send confirmation email
     const emailContent = `
-      <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
-        <h2 style="color: #2c3e50;">📌 Ny Flytthjälp Bokning Mottagen – #${
-          newBooking.orderNumber
-        }</h2>
-        <p>En ny bokning har gjorts med följande detaljer:</p>
-        <hr>
+    /  <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+         <h2 style="color: #2c3e50;">📌 Ny Flytthjälp Bokning Mottagen – #${
+           newBooking.orderNumber
+         }</h2>
+         <p>En ny bokning har gjorts med följande detaljer:</p>
+         <hr>
         <p><strong>Kund:</strong> ${newBooking.name}</p>
-        <p><strong>Email:</strong> ${newBooking.email}</p>
-        <p><strong>Datum:</strong> ${new Date(
-          newBooking.movingDay
-        ).toLocaleDateString()}</p>
-        
-        <p><strong>Adress:</strong> ${newBooking.address}</p>
-        <hr>
-      </div>
-    `;
+       <p><strong>Email:</strong> ${newBooking.email}</p>
+         <p><strong>Datum:</strong> ${
+           new Date(newBooking.movingDay).toISOString().split("T")[0]
+         }</p>
+
+         <p><strong>Adress:</strong> ${newBooking.address}</p>
+    <hr>
+       </div>
+     `;
 
     await sendEmail(
       process.env.EMAIL_USER, // Send to company email

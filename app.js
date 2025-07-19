@@ -11,6 +11,9 @@ const Dates = require("./routes/lockedDates");
 const cleaningPrice = require("./routes/cleanpriceing");
 const cleanbookings = require("./routes/cleanBooking");
 const cleanVisning = require("./routes/cleanVisning");
+const extraServiceRoutes = require("./routes/extraServiceRoutes");
+const editPricingRoutes = require("./routes/EditPricing");
+const editCleanRoutes = require("./routes/editClean");
 
 const app = express();
 const port = 4000;
@@ -38,6 +41,9 @@ app.use("/api/locked-dates", Dates);
 app.use("/api/cleaning-price", cleaningPrice);
 app.use("/api/clean-bookings", cleanbookings);
 app.use("/api/clean-visning", cleanVisning);
+app.use("/api/extra-services", extraServiceRoutes);
+app.use("/api/edit-pricing", editPricingRoutes);
+app.use("/api/edit-clean", editCleanRoutes);
 
 // Start Server
 app.listen(port, () => {

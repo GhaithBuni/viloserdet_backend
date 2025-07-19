@@ -6,7 +6,7 @@ const bookingSchema = new mongoose.Schema({
   personalNumber: { type: String, required: true }, // Changed from 'personnumer' & set to String (Swedish personal numbers contain dashes)
   email: { type: String, required: true },
   phone: { type: String, required: true }, // Changed from Number to String (phone numbers can start with '0' and contain '+')
-  movingDay: { type: Date },
+  movingDay: { type: String, required: true },
   address: { type: String, required: true }, // originAdress renamed for clarity
   newAddress: { type: String, required: true }, // desAdress renamed for clarity
   message: { type: String }, // Optional field from formData
@@ -74,8 +74,15 @@ const bookingSchema = new mongoose.Schema({
   },
   selectedStorage: { type: String },
   storageDate: { type: Date },
+  storagePrice: { type: Number, default: 0 }, // Price for storage service
   isCompleted: { type: Boolean, default: false },
+  cleaningPrice: { type: Number, default: 0 }, // Price for cleaning service
+  basePrice: { type: Number, default: 0 }, // Base price for the booking
+  packgingPrice: { type: Number, default: 0 }, // Price for packing service
+  furniturePrice: { type: Number, default: 0 }, // Price for furniture removal service
   orderNumber: { type: Number, unique: true },
+  messageTo: { type: String }, // Message to the customer
+  discountedPrice: { type: Number, default: 0 },
 });
 
 bookingSchema.pre("save", async function (next) {
