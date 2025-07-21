@@ -8,6 +8,9 @@ const adminRoutes = require("./routes/adminRoute");
 const adminDashboard = require("./routes/adminDashboard");
 const email = require("./routes/email");
 const Dates = require("./routes/lockedDates");
+const datesClean = require("./routes/LockedDatesClean");
+const LockedDatesVisning = require("./routes/LockedDatesVisning");
+
 const cleaningPrice = require("./routes/cleanpriceing");
 const cleanbookings = require("./routes/cleanBooking");
 const cleanVisning = require("./routes/cleanVisning");
@@ -44,6 +47,8 @@ app.use("/api/clean-visning", cleanVisning);
 app.use("/api/extra-services", extraServiceRoutes);
 app.use("/api/edit-pricing", editPricingRoutes);
 app.use("/api/edit-clean", editCleanRoutes);
+app.use("/api/clean-Dates", datesClean);
+app.use("/api/locked-dates-visning", LockedDatesVisning);
 
 // Start Server
 app.listen(port, () => {
