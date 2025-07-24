@@ -50,6 +50,7 @@ router.post("/", async (req, res) => {
     storagePrice,
     messageTo,
     discountedPrice,
+    cleaningDate,
   } = req.body;
 
   if (
@@ -103,7 +104,24 @@ router.post("/", async (req, res) => {
       extraServices += `
     <p><strong>🧼 Flyttstädning:</strong> <span style="text-decoration: line-through;">${cleaningPrice} SEK</span></p>
     <p style="margin-left: 20px;">➡️ <strong>Efter Rabatt</strong> ${discountedCleaningPrice} SEK</p>
+    <p><strong>📅 Flyttstädning Datum:</strong> ${
+      new Date(cleaningDate).toISOString().split("T")[0]
+    } </p>
   `;
+    }
+    let villkor = "";
+    if (cleaningPrice && cleaningPrice !== 0) {
+      villkor = `<p>
+        📄 Här hittar du våra avtalsvillkor som gäller för din bokning: <strong>Flyttstädning</strong>
+        <a
+          href="https://www.vilöserdet.se/Ingariflyttstadingen"
+          target="_blank"
+          style="color: #0D3F53; text-decoration: underline;"
+        >
+          avtalsvillkor
+        </a>
+        .
+      </p>`;
     }
     console.log("📩 Sending confirmation email to:", customerEmail);
     console.log(packingOption);
@@ -152,7 +170,8 @@ router.post("/", async (req, res) => {
         <p>Om du behöver ändra eller avboka tiden, vänligen kontakta oss senast tre arbetsdagar innan den avtalade tiden.</p>
         <p>Om du har några frågor eller behöver ändra din bokning, kontakta oss på:</p>
         <p>📧 <a href="mailto:info@viloserdet.se">info@viloserdet.se </a> | 📞 010-555 88 93</p>
-        <p>📄 Genom att boka godkänner du våra <a href="https://www.vilöserdet.se/Ingariflytthjalp" target="_blank" style="color: #0D3F53; text-decoration: underline;">avtalsvillkor</a>.</p>
+        <p>📄 Här hittar du våra avtalsvillkor som gäller för din bokning: <a href="https://www.vilöserdet.se/Ingariflytthjalp" target="_blank" style="color: #0D3F53; text-decoration: underline;">avtalsvillkor</a>.</p>
+        ${villkor}
         <p>Med vänliga hälsningar,</p>
         <p><strong>Orgnummer: </strong>880531–7958 </p>
         <p><strong>Telefon: </strong>010-555 88 93</p>

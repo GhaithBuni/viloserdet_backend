@@ -83,6 +83,7 @@ const bookingSchema = new mongoose.Schema({
   orderNumber: { type: Number, unique: true },
   messageTo: { type: String }, // Message to the customer
   discountedPrice: { type: Number, default: 0 },
+  cleaningDate: { type: String },
 });
 
 bookingSchema.pre("save", async function (next) {
