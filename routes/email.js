@@ -31,6 +31,7 @@ async function sendEmail(to, subject, htmlContent) {
 }
 
 router.post("/", async (req, res) => {
+  const extraPrices = await ExtraService.findOne({});
   const {
     orderNumber,
     customerEmail,
@@ -51,6 +52,18 @@ router.post("/", async (req, res) => {
     messageTo,
     discountedPrice,
     cleaningDate,
+    persienner,
+    extraBadrum,
+    extraToalett,
+    inglasadDuschhörna,
+    diskmaskin,
+    tvattmaskin,
+    torktumlare,
+    insidanMaskiner,
+    selectedPacking,
+    selectedDisposal,
+    selectedCleaning,
+    storageDate,
   } = req.body;
 
   if (
@@ -84,22 +97,34 @@ router.post("/", async (req, res) => {
     }
     let adjustedPackagingPrice = packgingPrice;
 
-    if (packingOption === "Bara Kök" && packgingPrice) {
+    if (
+      selectedPacking == "Ja" &&
+      packingOption === "Bara Kök" &&
+      packgingPrice
+    ) {
       adjustedPackagingPrice = Math.round(packgingPrice * 0.4);
     }
 
     let extraServices = "";
+    let selectedExtras = "";
 
-    if (adjustedPackagingPrice && adjustedPackagingPrice !== 0) {
+    if (
+      selectedPacking == "Ja" &&
+      adjustedPackagingPrice &&
+      adjustedPackagingPrice !== 0
+    ) {
       extraServices += `<p><strong>📦 Packhjälp:</strong> ${adjustedPackagingPrice} SEK</p>`;
     }
     if (storagePrice && storagePrice !== 0) {
       extraServices += `<p><strong>🏢 Magasinering Pris:</strong> ${storagePrice} SEK</p>`;
+      extraServices += `<p><strong>📅 Magasinering Datum:</strong> ${
+        new Date(storageDate).toISOString().split("T")[0]
+      }</p>`;
     }
-    if (furniturePrice && furniturePrice !== 0) {
+    if (selectedDisposal == "Ja" && furniturePrice && furniturePrice !== 0) {
       extraServices += `<p><strong>🛠️  Möbel Bortslig:</strong> ${furniturePrice} SEK</p>`;
     }
-    if (cleaningPrice && cleaningPrice !== 0) {
+    if (selectedCleaning == "Ja" && cleaningPrice && cleaningPrice !== 0) {
       const discountedCleaningPrice = Math.round(cleaningPrice * 0.85);
       extraServices += `
     <p><strong>🧼 Flyttstädning:</strong> <span style="text-decoration: line-through;">${cleaningPrice} SEK</span></p>
@@ -109,8 +134,34 @@ router.post("/", async (req, res) => {
     } </p>
   `;
     }
+
+    if (persienner && parseInt(persienner) > 0) {
+      selectedExtras += `<li>Persienner (${persienner} st): ${
+        extraPrices.persienner * parseInt(persienner)
+      } SEK</li>`;
+    }
+    if (extraBadrum == "Ja") {
+      selectedExtras += `<li>Extra Badrum: ${extraPrices.extraBadrum} SEK</li>`;
+    }
+    if (extraToalett == "Ja") {
+      selectedExtras += `<li>Extra Toalett: ${extraPrices.extraToalett} SEK</li>`;
+    }
+    if (inglasadDuschhörna == "Ja") {
+      selectedExtras += `<li>Inglasad Duschhörna: ${extraPrices.inglasadDuschhörna} SEK</li>`;
+    }
+    if (insidanMaskiner == "Ja") {
+      if (diskmaskin) {
+        selectedExtras += `<li>Diskmaskin: ${extraPrices.diskmaskin} SEK</li>`;
+      }
+      if (tvattmaskin) {
+        selectedExtras += `<li>Tvättmaskin: ${extraPrices.tvattmaskin} SEK</li>`;
+      }
+      if (torktumlare) {
+        selectedExtras += `<li>Torktumlare: ${extraPrices.torktumlare} SEK</li>`;
+      }
+    }
     let villkor = "";
-    if (cleaningPrice && cleaningPrice !== 0) {
+    if (selectedCleaning == "Ja" && cleaningPrice && cleaningPrice !== 0) {
       villkor = `<p>
         📄 Här hittar du våra avtalsvillkor som gäller för din bokning: <strong>Flyttstädning</strong>
         <a
@@ -157,6 +208,11 @@ router.post("/", async (req, res) => {
             : ""
         }
         ${extraServices}
+        ${
+          selectedExtras
+            ? `<div><strong>➕ Valda Extra Tjänster (Flyttstädning):</strong><ul>${selectedExtras}</ul></div><hr>`
+            : ""
+        }
         <p><strong>💰 Total Pris:</strong> ${Math.round(price)} SEK${
       rutChecked ? " (pris efter RUT)" : ""
     }</p>

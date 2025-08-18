@@ -84,6 +84,14 @@ const bookingSchema = new mongoose.Schema({
   messageTo: { type: String }, // Message to the customer
   discountedPrice: { type: Number, default: 0 },
   cleaningDate: { type: String },
+  persienner: { type: String }, // Optional field for persienner (blinds) from formData
+  extraBadrum: { type: String }, // Optional field for extra bathroom from formData
+  extraToalett: { type: String }, // Optional field for extra toilet from formData
+  inglasadDuschhörna: { type: String }, // Optional field for inglasad duschhörna (glass shower corner) from formData
+  insidanMaskiner: { type: String }, // Optional field for insidan maskiner (inside machines) from formData
+  diskmaskin: { type: Boolean },
+  tvattmaskin: { type: Boolean },
+  torktumlare: { type: Boolean },
 });
 
 bookingSchema.pre("save", async function (next) {
