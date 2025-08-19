@@ -440,6 +440,7 @@ router.post("/visningstad", async (req, res) => {
 
   try {
     console.log("📩 Sending confirmation email to:", customerEmail);
+    let extraMessageToCustomer = "";
 
     if (adminMessage && adminMessage.trim() !== "") {
       extraMessageToCustomer = `
