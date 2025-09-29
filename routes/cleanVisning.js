@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
       </div>
     `;
 
-    await sendEmail(
+    sendEmail(
       process.env.EMAIL_USER,
       `Ny Visningsstädning Bokning - ${newBooking.name}`,
       emailContent
