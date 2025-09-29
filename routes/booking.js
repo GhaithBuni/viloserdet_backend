@@ -15,6 +15,9 @@ async function sendEmail(to, subject, htmlContent) {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
   });
 
   let info = await transporter.sendMail({
@@ -36,7 +39,6 @@ router.post("/", async (req, res) => {
     const newBooking = new Booking(req.body);
     await newBooking.save();
 
-    // Send confirmation email (don't let email errors break the booking)
     const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
          <h2 style="color: #2c3e50;">📌 Ny Flytthjälp Bokning Mottagen – #${
@@ -49,28 +51,22 @@ router.post("/", async (req, res) => {
          <p><strong>Datum:</strong> ${
            new Date(newBooking.movingDay).toISOString().split("T")[0]
          }</p>
-
          <p><strong>Adress:</strong> ${newBooking.address}</p>
     <hr>
        </div>
      `;
 
-    try {
-      await sendEmail(
-        process.env.EMAIL_USER,
-        `Ny Bokning - ${newBooking.name}`,
-        emailContent
-      );
-    } catch (emailError) {
-      console.error(
-        "❌ Email sending failed (booking still saved):",
-        emailError
-      );
-    }
+    // Send email without blocking
+    sendEmail(
+      process.env.EMAIL_USER,
+      `Ny Bokning - ${newBooking.name}`,
+      emailContent
+    ).catch((err) => console.error("❌ Email failed:", err));
 
-    return res
-      .status(201)
-      .json({ message: "Booking saved successfully!", booking: newBooking });
+    return res.status(201).json({
+      message: "Booking saved successfully!",
+      booking: newBooking,
+    });
   } catch (error) {
     console.error("Error saving booking:", error);
     return res.status(500).json({ error: "Internal Server Error" });
