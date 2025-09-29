@@ -36,9 +36,9 @@ router.post("/", async (req, res) => {
     const newBooking = new Booking(req.body);
     await newBooking.save();
 
-    // // Send confirmation email
+    // Send confirmation email (don't let email errors break the booking)
     const emailContent = `
-    /  <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
+      <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.5;">
          <h2 style="color: #2c3e50;">📌 Ny Flytthjälp Bokning Mottagen – #${
            newBooking.orderNumber
          }</h2>
@@ -55,11 +55,18 @@ router.post("/", async (req, res) => {
        </div>
      `;
 
-    await sendEmail(
-      process.env.EMAIL_USER, // Send to company email
-      `Ny Bokning - ${newBooking.name}`,
-      emailContent
-    );
+    try {
+      await sendEmail(
+        process.env.EMAIL_USER,
+        `Ny Bokning - ${newBooking.name}`,
+        emailContent
+      );
+    } catch (emailError) {
+      console.error(
+        "❌ Email sending failed (booking still saved):",
+        emailError
+      );
+    }
 
     return res
       .status(201)
