@@ -13,7 +13,7 @@ async function sendEmail(to, subject, htmlContent) {
   let transporter = nodemailer.createTransport({
     host: "send.one.com",
     port: 587,
-    secure: true,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -238,7 +238,7 @@ router.post("/", async (req, res) => {
       </div>
     `;
 
-    await sendEmail(
+    sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -387,7 +387,7 @@ router.post("/Flyttstad", async (req, res) => {
   </div>
 `;
 
-    await sendEmail(
+    sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -523,7 +523,7 @@ router.post("/visningstad", async (req, res) => {
       </div>
     `;
 
-    await sendEmail(
+    sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -558,7 +558,7 @@ router.post("/contact", async (req, res) => {
       </div>
     `;
 
-    await sendEmail(
+    sendEmail(
       process.env.EMAIL_USER, // Send to your company email
       `Nytt kontaktformulär från ${name}`,
       emailContent
