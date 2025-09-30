@@ -10,6 +10,10 @@ dbConnect();
 
 // Email Sending Function
 async function sendEmail(to, subject, htmlContent) {
+  console.log("🔍 Starting email send...");
+  console.log("📧 Email user:", process.env.EMAIL_USER ? "Set" : "MISSING");
+  console.log("🔑 Email pass:", process.env.EMAIL_PASS ? "Set" : "MISSING");
+
   let transporter = nodemailer.createTransport({
     host: "send.one.com",
     port: 587,
@@ -18,18 +22,32 @@ async function sendEmail(to, subject, htmlContent) {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    logger: true, // Enable logging
+    debug: true, // Enable debug output
   });
 
-  let info = await transporter.sendMail({
-    from: `"Vilöserdet" <${process.env.EMAIL_USER}>`, // Avsändare
-    to,
-    subject,
-    html: htmlContent, // HTML-meddelande
-  });
+  try {
+    console.log("🔌 Verifying connection...");
+    await transporter.verify();
+    console.log("✅ Connection verified");
 
-  console.log("✅ Email sent:", info.response);
+    console.log("📨 Sending email...");
+    let info = await transporter.sendMail({
+      from: `"Vilöserdet" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html: htmlContent,
+    });
+
+    console.log("✅ Email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("❌ Full error:", error);
+    console.error("❌ Error code:", error.code);
+    console.error("❌ Error message:", error.message);
+    throw error;
+  }
 }
-
 router.post("/", async (req, res) => {
   const extraPrices = await ExtraService.findOne({});
   const {
@@ -238,7 +256,7 @@ router.post("/", async (req, res) => {
       </div>
     `;
 
-    sendEmail(
+    await sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -387,7 +405,7 @@ router.post("/Flyttstad", async (req, res) => {
   </div>
 `;
 
-    sendEmail(
+    await sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -523,7 +541,7 @@ router.post("/visningstad", async (req, res) => {
       </div>
     `;
 
-    sendEmail(
+    await sendEmail(
       customerEmail,
       `Bokningsbekräftelse – #${orderNumber || customerName}`,
       emailContent
@@ -558,7 +576,7 @@ router.post("/contact", async (req, res) => {
       </div>
     `;
 
-    sendEmail(
+    await sendEmail(
       process.env.EMAIL_USER, // Send to your company email
       `Nytt kontaktformulär från ${name}`,
       emailContent
