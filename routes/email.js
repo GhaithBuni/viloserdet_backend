@@ -12,7 +12,7 @@ dbConnect();
 async function sendEmail(to, subject, htmlContent) {
   let transporter = nodemailer.createTransport({
     host: "send.one.com",
-    port: 465,
+    port: 587,
     secure: true,
     auth: {
       user: process.env.EMAIL_USER,
