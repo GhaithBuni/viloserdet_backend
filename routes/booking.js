@@ -7,27 +7,19 @@ require("dotenv").config();
 
 // Add email sending function
 async function sendEmail(to, subject, htmlContent) {
-  let transporter = nodemailer.createTransport({
-    host: "send.one.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-  });
-
-  let info = await transporter.sendMail({
-    from: `"Vilöserdet" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html: htmlContent,
-  });
-
-  console.log("✅ Email sent:", info.response);
+  try {
+    const data = await resend.emails.send({
+      from: "Vilöserdet <no-reply@viloserdet.se>",
+      to: [to],
+      subject,
+      html: htmlContent,
+    });
+    console.log("✅ Email sent:", data);
+    return data;
+  } catch (error) {
+    console.error("❌ Email error:", error);
+    throw error;
+  }
 }
 
 // Connect to the database

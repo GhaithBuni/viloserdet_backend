@@ -5,46 +5,25 @@ const dbConnect = require("../dbConnect");
 const nodemailer = require("nodemailer");
 const Pricing = require("../models/price");
 const ExtraService = require("../models/ExtraService");
+const { Resend } = require("resend");
 
 dbConnect();
 
 // Email Sending Function
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 async function sendEmail(to, subject, htmlContent) {
-  console.log("🔍 Starting email send...");
-  console.log("📧 Email user:", process.env.EMAIL_USER ? "Set" : "MISSING");
-  console.log("🔑 Email pass:", process.env.EMAIL_PASS ? "Set" : "MISSING");
-
-  let transporter = nodemailer.createTransport({
-    host: "send.one.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    logger: true, // Enable logging
-    debug: true, // Enable debug output
-  });
-
   try {
-    console.log("🔌 Verifying connection...");
-    await transporter.verify();
-    console.log("✅ Connection verified");
-
-    console.log("📨 Sending email...");
-    let info = await transporter.sendMail({
-      from: `"Vilöserdet" <${process.env.EMAIL_USER}>`,
-      to,
+    const data = await resend.emails.send({
+      from: "Vilöserdet <no-reply@viloserdet.se>",
+      to: [to],
       subject,
       html: htmlContent,
     });
-
-    console.log("✅ Email sent:", info.response);
-    return info;
+    console.log("✅ Email sent:", data);
+    return data;
   } catch (error) {
-    console.error("❌ Full error:", error);
-    console.error("❌ Error code:", error.code);
-    console.error("❌ Error message:", error.message);
+    console.error("❌ Email error:", error);
     throw error;
   }
 }
