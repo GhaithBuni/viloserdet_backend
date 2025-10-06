@@ -3,6 +3,8 @@ const router = express.Router();
 const Booking = require("../models/cleanbooking");
 const dbConnect = require("../dbConnect");
 const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 require("dotenv").config();
 
 // Add email sending function

@@ -4,6 +4,8 @@ const Booking = require("../models/cleanVisning");
 const dbConnect = require("../dbConnect");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Add email sending function
 async function sendEmail(to, subject, htmlContent) {
